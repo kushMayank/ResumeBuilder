@@ -1,0 +1,13 @@
+.App {
+  text-align: center;
+}
+.appContainer {
+  display: flex;
+  height: 100%;
+}
+.resumeContainer {
+  width: 300px;
+}
+.editorContainer {
+  width: calc(100% - 300px);
+}

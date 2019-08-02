@@ -1,0 +1,9 @@
+.editorWrapper {
+  border: 2px solid rgb(215, 218, 222);
+}
+.tableContainer {
+  width: 100%;
+}
+.tableContainer tr {display: flex; justify-content: space-between}
+.tableContainer tr td {display: flex; flex: 1 1 auto }
+.tableContainer tr td > div {width: 100%;}
