@@ -2,13 +2,16 @@ import React from "react";
 import "./editor.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import { connect } from "react-redux";
+
+import { setResume } from "./action";
 
 const Editor = props => {
-  console.log("props", props);
   const [values, setValues] = React.useState({
     fullName: "",
     email: "",
     mobile: "",
+    objective: "",
     mastersDegree: "",
     mastersDegreeYears: "",
     mastersDegreeUniversity: "",
@@ -23,7 +26,9 @@ const Editor = props => {
     highSchoolDegreePercentage: "",
     city: "",
     state: "",
-    country: ""
+    country: "",
+    skills: "",
+    address: ""
   });
 
   const handleChange = name => e => {
@@ -31,21 +36,81 @@ const Editor = props => {
   };
 
   const handleSubmit = () => {
-    console.log("value==>", values);
-    props.onSubmit(values);
+    let resumeObj = {};
+    resumeObj["userDetails"] = {};
+    resumeObj["educationalDetails"] = {};
+    resumeObj["userDetails"]["name"] = values.fullName;
+    resumeObj["userDetails"]["email"] = values.email;
+    resumeObj["userDetails"]["mobile"] = values.mobile;
+    resumeObj["userDetails"]["address"] = values.address;
+    resumeObj["userDetails"]["city"] = values.city;
+    resumeObj["userDetails"]["state"] = values.state;
+    resumeObj["userDetails"]["country"] = values.country;
+    // edu
+    resumeObj["educationalDetails"]["masters"] = {
+      degree: values.mastersDegree,
+      years: values.mastersDegreeYears,
+      university: values.mastersDegreeUniversity,
+      percentage: values.mastersDegreePercentage
+    };
+    resumeObj["educationalDetails"]["bachelors"] = {
+      degree: values.bachelorsDegree,
+      years: values.bachelorsDegreeYears,
+      university: values.valuesbachelorsDegreeUniversity,
+      percentage: values.bachelorsDegreePercentage
+    };
+    resumeObj["educationalDetails"]["highschool"] = {
+      degree: values.highSchoolDegree,
+      years: values.highSchoolDegreeYears,
+      university: values.highSchoolDegreeUniversity,
+      percentage: values.highSchoolDegreePercentage
+    };
+    // skills
+    resumeObj["skills"] = values.skills;
+
+    //objective
+    resumeObj["objective"] = values.objective;
+
+    // props.onSubmit(resumeObj);
+
+    props.setResume(resumeObj);
+    alert("resume uploaded");
+    setValues({
+      fullName: "",
+      email: "",
+      mobile: "",
+      objective: "",
+      mastersDegree: "",
+      mastersDegreeYears: "",
+      mastersDegreeUniversity: "",
+      mastersDegreePercentage: "",
+      bachelorsDegree: "",
+      bachelorsDegreeYears: "",
+      bachelorsDegreeUniversity: "",
+      bachelorsDegreePercentage: "",
+      highSchoolDegree: "",
+      highSchoolDegreeYears: "",
+      highSchoolDegreeUniversity: "",
+      highSchoolDegreePercentage: "",
+      city: "",
+      state: "",
+      country: "",
+      skills: "",
+      address: ""
+    });
   };
 
   return (
     <div className="editorWrapper">
       <table className="tableContainer">
+        <h1>Resume</h1>
+
         <tbody>
           <tr>
             <td>
               <TextField
-                id="outlined-name"
                 label="FullName"
-                // className={classes.textField}
-                // value={values.name}
+                value={values.fullName}
                 onChange={handleChange("fullName")}
                 margin="normal"
                 variant="outlined"
@@ -53,10 +118,8 @@ const Editor = props => {
             </td>
             <td>
               <TextField
-                id="outlined-name"
                 label="Email"
-                // className={classes.textField}
-                // value={values.name}
+                value={values.email}
                 onChange={handleChange("email")}
                 margin="normal"
                 variant="outlined"
@@ -64,23 +127,23 @@ const Editor = props => {
             </td>
             <td>
               <TextField
-                id="outlined-name"
                 label="Mobile"
-                // className={classes.textField}
-                // value={values.name}
+                value={values.mobile}
                 onChange={handleChange("mobile")}
                 margin="normal"
                 variant="outlined"
+                type="number"
               />
             </td>
           </tr>
           <tr>
             <td>
               <TextField
-                id="outlined-full-width"
                 label="My Career Objective"
-                // style={{ margin: 19 }}
+                value={values.objective}
                 placeholder="Enter your career objective."
+                onChange={handleChange("objective")}
+                objective
                 fullWidth
                 margin="normal"
                 variant="outlined"
@@ -95,8 +158,7 @@ const Editor = props => {
               <TextField
                 id="outlined-name"
                 label="Masters Degree"
-                // className={classes.textField}
-                // value={values.name}
+                value={values.mastersDegree}
                 onChange={handleChange("mastersDegree")}
                 margin="normal"
                 variant="outlined"
@@ -106,19 +168,18 @@ const Editor = props => {
               <TextField
                 id="outlined-name"
                 label="Years"
-                // className={classes.textField}
-                // value={values.name}
+                value={values.mastersDegreeYears}
                 onChange={handleChange("mastersDegreeYears")}
                 margin="normal"
                 variant="outlined"
+                type="number"
               />
             </td>
             <td>
               <TextField
                 id="outlined-name"
                 label="University"
-                // className={classes.textField}
-                // value={values.name}
+                value={values.mastersDegreeUniversity}
                 onChange={handleChange("mastersDegreeUniversity")}
                 margin="normal"
                 variant="outlined"
@@ -128,11 +189,11 @@ const Editor = props => {
               <TextField
                 id="outlined-name"
                 label="Percentage"
-                // className={classes.textField}
-                // value={values.name}
+                value={values.mastersDegreePercentage}
                 onChange={handleChange("mastersDegreePercentage")}
                 margin="normal"
                 variant="outlined"
+                type="number"
               />
             </td>
           </tr>
@@ -141,8 +202,7 @@ const Editor = props => {
               <TextField
                 id="outlined-name"
                 label="Bachelors Degree"
-                // className={classes.textField}
-                // value={values.name}
+                value={values.bachelorsDegree}
                 onChange={handleChange("bachelorsDegree")}
                 margin="normal"
                 variant="outlined"
@@ -152,19 +212,18 @@ const Editor = props => {
               <TextField
                 id="outlined-name"
                 label="Years"
-                // className={classes.textField}
-                // value={values.name}
+                value={values.bachelorsDegreeYears}
                 onChange={handleChange("bachelorsDegreeYears")}
                 margin="normal"
                 variant="outlined"
+                type="number"
               />
             </td>
             <td>
               <TextField
                 id="outlined-name"
                 label="University"
-                // className={classes.textField}
-                // value={values.name}
+                value={values.bachelorsDegreeUniversity}
                 onChange={handleChange("bachelorsDegreeUniversity")}
                 margin="normal"
                 variant="outlined"
@@ -174,11 +233,11 @@ const Editor = props => {
               <TextField
                 id="outlined-name"
                 label="Percentage"
-                // className={classes.textField}
-                // value={values.name}
+                value={values.bachelorsDegreePercentage}
                 onChange={handleChange("bachelorsDegreePercentage")}
                 margin="normal"
                 variant="outlined"
+                type="number"
               />
             </td>
           </tr>
@@ -187,8 +246,7 @@ const Editor = props => {
               <TextField
                 id="outlined-name"
                 label="High School Degree"
-                // className={classes.textField}
-                // value={values.name}
+                value={values.highSchoolDegree}
                 onChange={handleChange("highSchoolDegree")}
                 margin="normal"
                 variant="outlined"
@@ -198,19 +256,18 @@ const Editor = props => {
               <TextField
                 id="outlined-name"
                 label="Years"
-                // className={classes.textField}
-                // value={values.name}
+                value={values.highSchoolDegreeYears}
                 onChange={handleChange("highSchoolDegreeYears")}
                 margin="normal"
                 variant="outlined"
+                type="number"
               />
             </td>
             <td>
               <TextField
                 id="outlined-name"
                 label="University"
-                // className={classes.textField}
-                // value={values.name}
+                value={values.highSchoolDegreeUniversity}
                 onChange={handleChange("highSchoolDegreeUniversity")}
                 margin="normal"
                 variant="outlined"
@@ -220,22 +277,22 @@ const Editor = props => {
               <TextField
                 id="outlined-name"
                 label="Percentage"
-                // className={classes.textField}
-                // value={values.name}
+                value={values.highSchoolDegreePercentage}
                 onChange={handleChange("highSchoolDegreePercentage")}
                 margin="normal"
                 variant="outlined"
+                type="number"
               />
             </td>
           </tr>
           <tr>
             <td>
               <TextField
-                id="outlined-full-width"
                 label="Skills (Upto 5, seperated by ',') "
-                // style={{ margin: 19 }}
+                value={values.skills}
                 placeholder="Enter your skills here."
                 fullWidth
+                onChange={handleChange("skills")}
                 margin="normal"
                 variant="outlined"
                 InputLabelProps={{
@@ -249,9 +306,10 @@ const Editor = props => {
               <TextField
                 id="outlined-full-width"
                 label="Address "
-                // style={{ margin: 19 }}
+                value={values.address}
                 placeholder="Enter your address here."
                 fullWidth
+                onChange={handleChange("address")}
                 margin="normal"
                 variant="outlined"
                 InputLabelProps={{
@@ -265,8 +323,7 @@ const Editor = props => {
               <TextField
                 id="outlined-name"
                 label="City"
-                // className={classes.textField}
-                // value={values.name}
+                value={values.city}
                 onChange={handleChange("city")}
                 margin="normal"
                 variant="outlined"
@@ -276,8 +333,7 @@ const Editor = props => {
               <TextField
                 id="outlined-name"
                 label="State"
-                // className={classes.textField}
-                // value={values.name}
+                value={values.state}
                 onChange={handleChange("state")}
                 margin="normal"
                 variant="outlined"
@@ -287,8 +343,7 @@ const Editor = props => {
               <TextField
                 id="outlined-name"
                 label="Country"
-                // className={classes.textField}
-                // value={values.name}
+                value={values.country}
                 onChange={handleChange("country")}
                 margin="normal"
                 variant="outlined"
@@ -304,4 +359,18 @@ const Editor = props => {
   );
 };
 
-export default Editor;
+const mapStateToProps = store => {
+  return {
+    resume: store.resume
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    setResume: data => dispatch(setResume(data))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Editor);

@@ -1,3 +1,41 @@
 .resumeWrapper {
   box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.12);
 }
+.resumeContent {
+  align-content: center;
+}
+.resumeHeader {
+  display: flex;
+  overflow-wrap: break-word;
+}
+.resumeContent tr > h4 {
+  color: green;
+}
+.resumeContent tr > h2 {
+  color: white;
+  text-transform: uppercase;
+}
+.downloadResume {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: +1;
+  color: brown;
+}
+
+.EditResume {
+  position: absolute;
+  left: 200px;
+  top: 0px;
+}
+
+.SmallerPage {
+  -webkit-transform: scale(0.67);
+  -moz-transform: scale(0.67);
+  -ms-transform: scale(0.67);
+  transform: scale(0.67);
+  -ms-transform-origin: 0 0;
+  -webkit-transform-origin: 0 0;
+  -moz-transform-origin: 0 0;
+  transform-origin: 0 0;
+}
